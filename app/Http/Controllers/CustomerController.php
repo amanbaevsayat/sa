@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    private $root = 'customers';
+    private $root;
+
+    public function __construct()
+    {
+        $this->root = 'customers';
+    }
 
     /**
      * Display a listing of the resource.
@@ -26,7 +31,10 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view("{$this->root}.create", ['customerStatuses' => \App\CustomerStatus::all()]);
+        return view("{$this->root}.create", [
+            'customerStatuses' => \App\CustomerStatus::all(),
+            'subscriptions' => \App\Subscription::all(),
+        ]);
     }
 
     /**

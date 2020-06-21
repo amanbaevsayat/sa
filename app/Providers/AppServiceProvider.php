@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Services\PaymentService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(PaymentService::class, function () {
+            return new PaymentService(
+                env('CLOUDPAYMENTS_BASEURL'),
+                env('CLOUDPAYMENTS_USERNAME'),
+                env('CLOUDPAYMENTS_PASSWORD')
+            );
+        });
     }
 
     /**

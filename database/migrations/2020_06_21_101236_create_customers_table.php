@@ -19,8 +19,8 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('email');
-            $table->string('subscriptionId');
             $table->integer('customer_status_id');
+            $table->integer('subscription_id')->nullable();
         });
     }
 

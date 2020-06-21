@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->to('/customers');
+});
 Route::resources([
     'customers' => 'CustomerController'
 ]);
+Route::get('/subscriptions/{subscription}/grab', 'SubscriptionController@grab');

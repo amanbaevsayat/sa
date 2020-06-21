@@ -10,7 +10,7 @@
                 <th scope="col">Имя</th>
                 <th scope="col">Телефон</th>
                 <th scope="col">Email</th>
-                <th scope="col">SubId</th>
+                <th scope="col">Подписки</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Настройки</th>
             </tr>
@@ -22,7 +22,9 @@
                 <td>{{ $customer->name }}</td>
                 <td>{{ $customer->phone }}</td>
                 <td>{{ $customer->email }}</td>
-                <td>{{ $customer->subscriptionId }}</td>
+                <td>
+                    {{ $customer->subscription->Status ?? '' }}
+                </td>
                 <td>{{ $customer->customerStatus->title }}</td>
                 <td>
                     <a href="/customers/{{ $customer->id }}/edit">

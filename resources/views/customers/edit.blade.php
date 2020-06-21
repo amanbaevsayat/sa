@@ -39,6 +39,24 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="subscription_id" class="col-sm-2 col-form-label">Подписка</label>
+                <div class="col-sm-10">
+                    <select name="subscription_id" id="subscription_id" class="form-control" name="subscription_id">
+                        <option value="---">
+                            Не выбрано
+                        </option>
+                        @foreach($customer->subscriptions() as $subscription)
+                        <option value="{{$subscription->id}}" @if ($customer->subscription && $subscription->id == $customer->subscription->id)
+                            selected
+                            @endif
+                            >
+                            {{$subscription->OriginId}}, {{$subscription->AccountId}}, {{$subscription->Email}}, {{$subscription->Status}}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-success" />
