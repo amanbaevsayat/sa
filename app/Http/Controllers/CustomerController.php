@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    private $root = 'customers';
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return "hello";
+        return view("{$this->root}.index", ['customers' => Customer::paginate(15)]);
     }
 
     /**
@@ -24,7 +26,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view("{$this->root}.create", ['customerStatuses' => \App\CustomerStatus::all()]);
     }
 
     /**
@@ -35,7 +37,8 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = Customer::create($request->all());
+        return view("{$this->root}.show", ['customer' => $customer]);
     }
 
     /**
@@ -46,7 +49,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return view("{$this->root}.show", ['customer' => $customer]);
     }
 
     /**
@@ -57,7 +60,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view("{$this->root}.edit", ['customer' => $customer]);
     }
 
     /**
@@ -69,7 +72,8 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $customer->update($request->all());
+        return redirect()->to("/{$this->root}");
     }
 
     /**
@@ -80,6 +84,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return redirect()->to("/{$this->root}");
     }
 }

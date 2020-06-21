@@ -14,6 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resources([
-    'customers' => 'CustomerController',
-    'customerStatuses' => 'CustomerStatusController'
+    'customers' => 'CustomerController'
 ]);
