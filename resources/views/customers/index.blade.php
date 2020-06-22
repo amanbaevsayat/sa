@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<a href="/customers/create" class="btn btn-info">Новый</a>
+<a href="/customers/create" class="btn btn-info text-white float-right mb-2">
+    Новый
+</a>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -10,7 +12,7 @@
                 <th scope="col">Имя</th>
                 <th scope="col">Телефон</th>
                 <th scope="col">Email</th>
-                <th scope="col">Подписки</th>
+                <th scope="col">Подписка</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Настройки</th>
             </tr>
@@ -27,11 +29,11 @@
                 </td>
                 <td>{{ $customer->customerStatus->title }}</td>
                 <td>
-                    <a href="/customers/{{ $customer->id }}/edit">
-                        Редактировать
+                    <a href="/customers/{{ $customer->id }}/edit" class="btn btn-sm btn-default mx-2" title="Редактировать">
+                        <i class="fa fa-pencil"></i>
                     </a>
-                    <a href="/customers/{{ $customer->id }}">
-                        Подробнее
+                    <a href="/customers/{{ $customer->id }}" class="btn btn-sm btn-default mx-2" title="Подробнее">
+                        <i class="fa fa-list"></i>
                     </a>
                 </td>
             </tr>
