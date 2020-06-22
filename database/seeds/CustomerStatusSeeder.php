@@ -11,8 +11,12 @@ class CustomerStatusSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\CustomerStatus::class, 5)->create()->each(function ($customerStatus) {
-            $customerStatus->customers()->save(factory(App\Customer::class)->make());
-        });
+        $customerStatuses = [
+            'Не отмечен', 'Связаться', "Думает", "Жду оплату", "Оплачено", "Оплачено", "Отказ"
+        ];
+
+        foreach ($customerStatuses as $key => $customerStatus) {
+            \App\CustomerStatus::create(['title' => $customerStatus]);
+        }
     }
 }

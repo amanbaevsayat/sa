@@ -22,9 +22,4 @@ class Customer extends Model
     {
         return $this->belongsTo('App\Subscription');
     }
-
-    public function subscriptions()
-    {
-        return \App\Subscription::all();
-    }
 }

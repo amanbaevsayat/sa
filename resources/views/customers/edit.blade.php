@@ -46,7 +46,7 @@
                         <option value="---">
                             Не выбрано
                         </option>
-                        @foreach($customer->subscriptions() as $subscription)
+                        @foreach($subscriptions as $subscription)
                         <option value="{{$subscription->id}}" @if ($customer->subscription && $subscription->id == $customer->subscription->id)
                             selected
                             @endif

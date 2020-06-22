@@ -9,6 +9,7 @@ $factory->define(Customer::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'phone' => $faker->e164PhoneNumber,
-        'email' => $faker->email
+        'email' => $faker->email,
+        'customer_status_id' => 1
     ];
 });

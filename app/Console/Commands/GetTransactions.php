@@ -40,18 +40,37 @@ class GetTransactions extends Command
      */
     public function handle()
     {
-        $date = date('Y-m-d');
-        $models = $this->paymentService->getTransactionsForDate($date);
-        foreach ($models as $model) {
-            $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
-            foreach ($subscriptions as $subscription) {
-                if (\App\Transaction::where('PublicId', $model['PublicId'])->exists()) {
-                    $transaction = \App\Transaction::where('PublicId', $model['PublicId'])->first();
-                    $transaction->update($model);
-                } else {
-                    $subscription->transactions()->create($model);
+        try {
+            $date = date('Y-m-d');
+
+            $this->info("Getting transactions for date {$date}\n");
+
+            $models = $this->paymentService->getTransactionsForDate($date);
+            foreach ($models as $model) {
+
+                $this->info("Getting subscriptions for OriginId {$model['SubscriptionId']}\n");
+
+                $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
+                foreach ($subscriptions as $subscription) {
+                    if (\App\Transaction::where('PublicId', $model['PublicId'])->exists()) {
+                        $transaction = \App\Transaction::where('PublicId', $model['PublicId'])->first();
+
+                        $this->info("Updating transaction with PublicId {$model['PublicId']}\n");
+
+                        $transaction->update($model);
+
+                        $this->info("Updated transaction with PublicId {$model['PublicId']}\n");
+                    } else {
+                        $this->info("Creating transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+
+                        $subscription->transactions()->create($model);
+
+                        $this->info("Created transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+                    }
                 }
             }
+        } catch (\Error $e) {
+            $this->error($e->getMessage());
         }
     }
 }

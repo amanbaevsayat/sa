@@ -70,7 +70,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view("{$this->root}.edit", ['customer' => $customer]);
+        return view("{$this->root}.edit", ['customer' => $customer, 'subscriptions' => \App\Subscription::all()->sortBy('OriginId')]);
     }
 
     /**
