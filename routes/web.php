@@ -22,4 +22,3 @@ Route::resources([
 ]);
 
 Route::get('/subscriptions/{subscription}/getSubscriptionFromApi', 'SubscriptionController@getSubscriptionFromApi');
-Route::get('/transactions/{date}/getTransactionsForDate', 'TransactionController@getTransactionsForDate');

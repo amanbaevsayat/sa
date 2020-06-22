@@ -88,22 +88,4 @@ class TransactionController extends Controller
     {
         //
     }
-
-
-    public function getTransactionsForDate($date)
-    {
-        $models = $this->paymentService->getTransactionsForDate($date);
-        dd($models);
-        foreach ($models as $model) {
-            $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
-            foreach ($subscriptions as $subscription) {
-                if (Transaction::where('PublicId', $model['PublicId'])->exists()) {
-                    $transaction = Transaction::where('PublicId', $model['PublicId'])->first();
-                    $transaction->update($model);
-                } else {
-                    $subscription->transactions()->create($model);
-                }
-            }
-        }
-    }
 }
