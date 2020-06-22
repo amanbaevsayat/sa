@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Transaction;
 use Illuminate\Http\Request;
+use App\Http\Services\PaymentService;
 
 class TransactionController extends Controller
 {
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->middleware('auth');
+        $this->paymentService = $paymentService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +87,23 @@ class TransactionController extends Controller
     public function destroy(Transaction $transaction)
     {
         //
+    }
+
+
+    public function getTransactionsForDate($date)
+    {
+        $models = $this->paymentService->getTransactionsForDate($date);
+        dd($models);
+        foreach ($models as $model) {
+            $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
+            foreach ($subscriptions as $subscription) {
+                if (Transaction::where('PublicId', $model['PublicId'])->exists()) {
+                    $transaction = Transaction::where('PublicId', $model['PublicId'])->first();
+                    $transaction->update($model);
+                } else {
+                    $subscription->transactions()->create($model);
+                }
+            }
+        }
     }
 }

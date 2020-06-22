@@ -25,7 +25,7 @@
                 <td>{{ $customer->phone }}</td>
                 <td>{{ $customer->email }}</td>
                 <td>
-                    {{ $customer->subscription->Status ?? '' }}
+                    {{ $customer->subscription->Status ?? 'Нет данных' }}
                 </td>
                 <td>{{ $customer->customerStatus->title }}</td>
                 <td>

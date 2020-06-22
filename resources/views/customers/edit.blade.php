@@ -62,6 +62,8 @@
                 <input type="submit" value="Сохранить" class="btn btn-success" />
             </div>
         </form>
+    </div>
+    <div class="card-footer">
         <a href="/customers">К списку</a>
     </div>
 </div>

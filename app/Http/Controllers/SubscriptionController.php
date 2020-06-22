@@ -90,7 +90,7 @@ class SubscriptionController extends Controller
         //
     }
 
-    public function grab(Subscription $subscription)
+    public function getSubscriptionFromApi(Subscription $subscription)
     {
         $model = $this->paymentService->getSubscription($subscription->OriginId);
         $subscription->update($model);
