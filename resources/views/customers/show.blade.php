@@ -27,17 +27,19 @@
                 <a href="/customers">К списку</a>
             </div>
         </div>
-        @if ($customer->subscription)
         <div class="card">
             <div class="card-header">
                 <h5>
                     Подписка
+                    @if ($customer->subscription)
                     <small class="float-right">
                         <a href="/subscriptions/{{$customer->subscription->id}}/getSubscriptionFromApi" class="btn btn-sm btn-warning">Обновить</a>
                     </small>
+                    @endif
                 </h5>
             </div>
             <div class="card-body">
+                @if ($customer->subscription)
                 <div>
                     OriginId: {{ $customer->subscription->OriginId ?? '-' }} <br>
                     CustomerId: {{ $customer->subscription->CustomerId ?? '-' }} <br>
@@ -63,9 +65,11 @@
                     NextTransactionDateIso: {{ $customer->subscription->NextTransactionDateIso ?? '-' }} <br>
                     FailoverSchemeId: {{ $customer->subscription->FailoverSchemeId ?? '-' }} <br>
                 </div>
+                @else
+                Нет данных
+                @endif
             </div>
         </div>
-        @endif
     </div>
     <div class="col-6">
         <div class="card">
@@ -75,6 +79,7 @@
                 </h5>
             </div>
             <div class="card-body">
+                @if ($customer->subscription)
                 @if ($customer->subscription->transactions->isEmpty())
                 Нет данных
                 @else
@@ -139,6 +144,9 @@
                     ReasonCode: {{ $transaction->ReasonCode}} <br />
                 </div>
                 @endforeach
+                @endif
+                @else
+                Нет данных
                 @endif
             </div>
         </div>

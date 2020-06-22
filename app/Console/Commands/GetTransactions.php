@@ -13,7 +13,7 @@ class GetTransactions extends Command
      *
      * @var string
      */
-    protected $signature = 'transactions:get';
+    protected $signature = 'transactions:get {--dateFrom=} {--dateTo=}';
 
     /**
      * The console command description.
@@ -40,32 +40,42 @@ class GetTransactions extends Command
      */
     public function handle()
     {
+        $dateFrom = $this->option('dateFrom');
+        $dateTo = $this->option('dateTo');
         try {
-            $date = date('Y-m-d');
+            $period = new \DatePeriod(
+                new \DateTime($dateFrom),
+                new \DateInterval('P1D'),
+                new \DateTime($dateTo)
+            );
 
-            $this->info("Getting transactions for date {$date}\n");
+            foreach ($period as $value) {
+                $date = $value->format('Y-m-d');
 
-            $models = $this->paymentService->getTransactionsForDate($date);
-            foreach ($models as $model) {
+                $this->info("Getting transactions for date {$date}\n");
 
-                $this->info("Getting subscriptions for OriginId {$model['SubscriptionId']}\n");
+                $models = $this->paymentService->getTransactionsForDate($date);
+                foreach ($models as $model) {
 
-                $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
-                foreach ($subscriptions as $subscription) {
-                    if (\App\Transaction::where('PublicId', $model['PublicId'])->exists()) {
-                        $transaction = \App\Transaction::where('PublicId', $model['PublicId'])->first();
+                    $this->info("Getting subscriptions for OriginId {$model['SubscriptionId']}\n");
 
-                        $this->info("Updating transaction with PublicId {$model['PublicId']}\n");
+                    $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
+                    foreach ($subscriptions as $subscription) {
+                        if (\App\Transaction::where('PublicId', $model['PublicId'])->exists()) {
+                            $transaction = \App\Transaction::where('PublicId', $model['PublicId'])->first();
 
-                        $transaction->update($model);
+                            $this->info("Updating transaction with PublicId {$model['PublicId']}\n");
 
-                        $this->info("Updated transaction with PublicId {$model['PublicId']}\n");
-                    } else {
-                        $this->info("Creating transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+                            $transaction->update($model);
 
-                        $subscription->transactions()->create($model);
+                            $this->info("Updated transaction with PublicId {$model['PublicId']}\n");
+                        } else {
+                            $this->info("Creating transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
 
-                        $this->info("Created transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+                            $subscription->transactions()->create($model);
+
+                            $this->info("Created transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+                        }
                     }
                 }
             }
