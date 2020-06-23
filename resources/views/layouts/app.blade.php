@@ -33,6 +33,9 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="/customers">Заказчики</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/subscriptions">Подписки</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

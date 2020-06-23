@@ -12,7 +12,7 @@ class CustomerStatusSeeder extends Seeder
     public function run()
     {
         $customerStatuses = [
-            'Не отмечен', 'Связаться', "Думает", "Жду оплату", "Оплачено", "Оплачено", "Отказ"
+            'Не отмечен', 'Связаться', "Думает", "Жду оплату", "Оплачено", "Отказ"
         ];
 
         foreach ($customerStatuses as $key => $customerStatus) {

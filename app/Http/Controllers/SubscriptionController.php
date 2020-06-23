@@ -8,10 +8,12 @@ use App\Http\Services\PaymentService;
 
 class SubscriptionController extends Controller
 {
+    private $root;
     private $paymentService;
     public function __construct(PaymentService $paymentService)
     {
         $this->middleware('auth');
+        $this->root = 'subscriptions';
         $this->paymentService = $paymentService;
     }
     /**
@@ -21,7 +23,7 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        //
+        return view("{$this->root}.index", ['subscriptions' => Subscription::paginate(15)]);
     }
 
     /**
@@ -31,7 +33,7 @@ class SubscriptionController extends Controller
      */
     public function create()
     {
-        //
+        return view("{$this->root}.create");
     }
 
     /**
@@ -42,7 +44,10 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subscription = Subscription::create($request->all());
+        $model = $this->paymentService->getSubscription($subscription->originId);
+        $subscription->update($model);
+        return view("{$this->root}.show", ['subscription' => $subscription]);
     }
 
     /**
@@ -53,7 +58,7 @@ class SubscriptionController extends Controller
      */
     public function show(Subscription $subscription)
     {
-        //
+        return view("{$this->root}.show", ['subscription' => $subscription]);
     }
 
     /**
@@ -90,7 +95,7 @@ class SubscriptionController extends Controller
         //
     }
 
-    public function getSubscriptionFromApi(Subscription $subscription)
+    public function get(Subscription $subscription)
     {
         $model = $this->paymentService->getSubscription($subscription->OriginId);
         $subscription->update($model);

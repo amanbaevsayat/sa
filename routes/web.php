@@ -18,7 +18,8 @@ Route::get('/', function () {
     return redirect()->to('/customers');
 });
 Route::resources([
-    'customers' => 'CustomerController'
+    'customers' => 'CustomerController',
+    'subscriptions' => 'SubscriptionController',
 ]);
 
-Route::get('/subscriptions/{subscription}/getSubscriptionFromApi', 'SubscriptionController@getSubscriptionFromApi');
+Route::get('/subscriptions/{subscription}/get', 'SubscriptionController@get');

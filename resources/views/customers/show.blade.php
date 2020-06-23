@@ -33,7 +33,7 @@
                     Подписка
                     @if ($customer->subscription)
                     <small class="float-right">
-                        <a href="/subscriptions/{{$customer->subscription->id}}/getSubscriptionFromApi" class="btn btn-sm btn-warning">Обновить</a>
+                        <a href="/subscriptions/{{$customer->subscription->id}}/get" class="btn btn-sm btn-warning">Обновить</a>
                     </small>
                     @endif
                 </h5>
