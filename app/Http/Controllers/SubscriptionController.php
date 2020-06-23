@@ -99,6 +99,6 @@ class SubscriptionController extends Controller
     {
         $model = $this->paymentService->getSubscription($subscription->OriginId);
         $subscription->update($model);
-        return redirect()->to("/customers/{$subscription->customer->id}");
+        return redirect()->back();
     }
 }

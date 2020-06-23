@@ -3,6 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
+        <a href="/subscriptions/{{$subscription->id}}/get" class="btn btn-sm btn-warning float-right">Обновить</a>
         OriginId: {{ $subscription->OriginId ?? '-' }} <br>
         CustomerId: {{ $subscription->CustomerId ?? '-' }} <br>
         AccountId: {{ $subscription->AccountId ?? '-' }} <br>
