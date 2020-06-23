@@ -83,8 +83,8 @@
                 @if ($customer->subscription->transactions->isEmpty())
                 Нет данных
                 @else
-                @foreach($customer->subscription->transactions as $transaction)
-                <div class="border p-1">
+                @foreach($customer->subscription->transactions->sortBy('TransactionId') as $transaction)
+                <div class="border p-1 mb-2">
                     PublicId: {{ $transaction->PublicId}} <br />
                     TerminalUrl: {{ $transaction->TerminalUrl}} <br />
                     TransactionId: {{ $transaction->TransactionId}} <br />
