@@ -17,9 +17,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($subscriptions as $subscription)
+            @foreach($subscriptions as $key => $subscription)
             <tr>
-                <th scope="row">{{ $subscription->id }}</th>
+                <th scope="row">{{ ($subscriptions->currentpage()-1) * $subscriptions->perpage() + $key + 1  }}</th>
                 <td>{{ $subscription->OriginId }}</td>
                 <td>{{ $subscription->AccountId }}</td>
                 <td>{{ $subscription->Email }}</td>
