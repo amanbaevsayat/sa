@@ -61,20 +61,20 @@ class GetTransactions extends Command
 
                     $subscriptions = \App\Subscription::where('OriginId', $model['SubscriptionId'])->get();
                     foreach ($subscriptions as $subscription) {
-                        if (\App\Transaction::where('PublicId', $model['PublicId'])->exists()) {
-                            $transaction = \App\Transaction::where('PublicId', $model['PublicId'])->first();
+                        if (\App\Transaction::where('TransactionId', $model['TransactionId'])->exists()) {
+                            $transaction = \App\Transaction::where('TransactionId', $model['TransactionId'])->first();
 
-                            $this->info("Updating transaction with PublicId {$model['PublicId']}\n");
+                            $this->info("Updating transaction with TransactionId {$model['TransactionId']}\n");
 
                             $transaction->update($model);
 
-                            $this->info("Updated transaction with PublicId {$model['PublicId']}\n");
+                            $this->info("Updated transaction with TransactionId {$model['TransactionId']}\n");
                         } else {
-                            $this->info("Creating transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+                            $this->info("Creating transaction with TransactionId {$model['TransactionId']} for subscription {$subscription->OriginId}\n");
 
                             $subscription->transactions()->create($model);
 
-                            $this->info("Created transaction with PublicId {$model['PublicId']} for subscription {$subscription->OriginId}\n");
+                            $this->info("Created transaction with TransactionId {$model['TransactionId']} for subscription {$subscription->OriginId}\n");
                         }
                     }
                 }
