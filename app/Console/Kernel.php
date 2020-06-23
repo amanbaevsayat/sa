@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('transactions:get')->dailyAt('16:00');
+        $dateFrom = date('Y-m-d');
+        $dateTo = date('Y-m-d', strtotime($dateFrom . ' +1 day'));
+        $schedule->command("transactions:get --dateFrom={$dateFrom} --dateTo={$dateTo}")->hourly();
     }
 
     /**
