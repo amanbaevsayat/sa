@@ -3,29 +3,29 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        OriginId: {{ $customer->subscription->OriginId ?? '-' }} <br>
-        CustomerId: {{ $customer->subscription->CustomerId ?? '-' }} <br>
-        AccountId: {{ $customer->subscription->AccountId ?? '-' }} <br>
-        Description: {{ $customer->subscription->Description ?? '-' }} <br>
-        Email: {{ $customer->subscription->Email ?? '-' }} <br>
-        Amount: {{ $customer->subscription->Amount ?? '-' }} <br>
-        CurrencyCode: {{ $customer->subscription->CurrencyCode ?? '-' }} <br>
-        Currency: {{ $customer->subscription->Currency ?? '-' }} <br>
-        RequireConfirmation: {{ $customer->subscription->RequireConfirmation ?? '-' }} <br>
-        StartDateIso: {{ $customer->subscription->StartDateIso ?? '-' }} <br>
-        IntervalCode: {{ $customer->subscription->IntervalCode ?? '-' }} <br>
-        Interval: {{ $customer->subscription->Interval ?? '-' }} <br>
-        Period: {{ $customer->subscription->Period ?? '-' }} <br>
-        MaxPeriods: {{ $customer->subscription->MaxPeriods ?? '-' }} <br>
-        CultureName: {{ $customer->subscription->CultureName ?? '-' }} <br>
-        StatusCode: {{ $customer->subscription->StatusCode ?? '-' }} <br>
-        Status: {{ $customer->subscription->Status ?? '-' }} <br>
-        SuccessfulTransactionsNumber: {{ $customer->subscription->SuccessfulTransactionsNumber ?? '-' }} <br>
-        FailedTransactionsNumber: {{ $customer->subscription->FailedTransactionsNumber ?? '-' }} <br>
-        LastTransactionDateIso: {{ $customer->subscription->LastTransactionDateIso ?? '-' }} <br>
-        NextTransactionDate: {{ $customer->subscription->NextTransactionDate ?? '-' }} <br>
-        NextTransactionDateIso: {{ $customer->subscription->NextTransactionDateIso ?? '-' }} <br>
-        FailoverSchemeId: {{ $customer->subscription->FailoverSchemeId ?? '-' }} <br>
+        OriginId: {{ $subscription->OriginId ?? '-' }} <br>
+        CustomerId: {{ $subscription->CustomerId ?? '-' }} <br>
+        AccountId: {{ $subscription->AccountId ?? '-' }} <br>
+        Description: {{ $subscription->Description ?? '-' }} <br>
+        Email: {{ $subscription->Email ?? '-' }} <br>
+        Amount: {{ $subscription->Amount ?? '-' }} <br>
+        CurrencyCode: {{ $subscription->CurrencyCode ?? '-' }} <br>
+        Currency: {{ $subscription->Currency ?? '-' }} <br>
+        RequireConfirmation: {{ $subscription->RequireConfirmation ?? '-' }} <br>
+        StartDateIso: {{ $subscription->StartDateIso ?? '-' }} <br>
+        IntervalCode: {{ $subscription->IntervalCode ?? '-' }} <br>
+        Interval: {{ $subscription->Interval ?? '-' }} <br>
+        Period: {{ $subscription->Period ?? '-' }} <br>
+        MaxPeriods: {{ $subscription->MaxPeriods ?? '-' }} <br>
+        CultureName: {{ $subscription->CultureName ?? '-' }} <br>
+        StatusCode: {{ $subscription->StatusCode ?? '-' }} <br>
+        Status: {{ $subscription->Status ?? '-' }} <br>
+        SuccessfulTransactionsNumber: {{ $subscription->SuccessfulTransactionsNumber ?? '-' }} <br>
+        FailedTransactionsNumber: {{ $subscription->FailedTransactionsNumber ?? '-' }} <br>
+        LastTransactionDateIso: {{ $subscription->LastTransactionDateIso ?? '-' }} <br>
+        NextTransactionDate: {{ $subscription->NextTransactionDate ?? '-' }} <br>
+        NextTransactionDateIso: {{ $subscription->NextTransactionDateIso ?? '-' }} <br>
+        FailoverSchemeId: {{ $subscription->FailoverSchemeId ?? '-' }} <br>
     </div>
     <div class="card-footer">
         <a href="/subscriptions">К списку</a>

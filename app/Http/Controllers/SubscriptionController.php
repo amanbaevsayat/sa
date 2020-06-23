@@ -45,7 +45,7 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         $subscription = Subscription::create($request->all());
-        $model = $this->paymentService->getSubscription($subscription->originId);
+        $model = $this->paymentService->getSubscription($subscription->OriginId);
         $subscription->update($model);
         return view("{$this->root}.show", ['subscription' => $subscription]);
     }
