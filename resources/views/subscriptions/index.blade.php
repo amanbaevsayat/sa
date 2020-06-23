@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($subscriptions->sortByDesc('Status') as $subscription)
+            @foreach($subscriptions as $subscription)
             <tr>
                 <th scope="row">{{ $subscription->id }}</th>
                 <td>{{ $subscription->OriginId }}</td>
