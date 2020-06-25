@@ -1318,7 +1318,8 @@ class CustomerSeeder extends Seeder
           \App\Customer::create([
               'name' => $customer['name'],
               'phone' => $customer['phone'],
-              'start_date' => date('Y-m-d', strtotime($customer['dateStart']))
+              'start_date' => date('Y-m-d', strtotime($customer['dateStart'])),
+              'end_date' => isset($customer['deadLine']) ? date('Y-m-d', strtotime($customer['dateStart']) + ($customer['deadLine'] * 24*60*60)) : null
           ]);
       }
     }

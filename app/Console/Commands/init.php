@@ -45,7 +45,7 @@ class Init extends Command
 
 
         $dateFrom = "2020-02-01";
-        $dateTo = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+        $dateTo = date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))));
         \Artisan::call("transactions:get", [
             '--dateFrom' => $dateFrom,
             '--dateTo' => $dateTo

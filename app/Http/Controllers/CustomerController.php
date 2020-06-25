@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view("{$this->root}.index", ['customers' => Customer::paginate(15)]);
+        return view("{$this->root}.index", ['customers' => Customer::paginate(45)]);
     }
 
     /**

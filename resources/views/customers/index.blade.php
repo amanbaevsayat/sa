@@ -9,25 +9,31 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Дата старта</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">Осталось дней</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Телефон</th>
-                <th scope="col">Email</th>
-                <th scope="col">Подписка</th>
-                <th scope="col">Статус</th>
+                <th scope="col">Статус подписки</th>
+                <th scope="col">Ремарка</th>
+                <th scope="col">Тип</th>
                 <th scope="col">Настройки</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($customers as $customer)
+            @foreach($customers as $key => $customer)
             <tr>
-                <th scope="row">{{ $customer->id }}</th>
+                <th scope="row">{{ ($customers->currentpage()-1) * $customers->perpage() + $key + 1  }}</th>
+                <td>{{ $customer->start_date }}</td>
+                <td>{{ $customer->end_date }}</td>
+                <td>{{ $customer->daysLeft() }}</td>
                 <td>{{ $customer->name }}</td>
                 <td>{{ $customer->phone }}</td>
-                <td>{{ $customer->email }}</td>
                 <td>
                     {{ $customer->subscription->Status ?? 'Нет данных' }}
                 </td>
-                <td>{{ $customer->customerStatus->title }}</td>
+                <td>{{ $customer->remark->title }}</td>
+                <td>{{ $customer->subscriptionType->title }}</td>
                 <td>
                     <a href="/customers/{{ $customer->id }}/edit" class="btn btn-sm btn-default mx-2" title="Редактировать">
                         <i class="fa fa-pencil"></i>

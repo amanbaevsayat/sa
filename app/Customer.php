@@ -16,5 +16,20 @@ class Customer extends Model
     public function subscription()
     {
         return $this->belongsTo('App\Subscription');
+    }   
+
+    public function subscriptionType()
+    {
+        return $this->belongsTo('App\SubscriptionType');
+    }
+
+    public function daysLeft()
+    {
+        if (!$this->end_date) return '';
+        $now = time();
+        $end_date = strtotime($this->end_date);
+        $datediff = $end_date- $now;
+
+        return round($datediff / (60 * 60 * 24));
     }
 }
