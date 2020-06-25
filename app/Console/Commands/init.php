@@ -40,6 +40,12 @@ class Init extends Command
      */
     public function handle()
     {
+        exec('git fetch origin master');
+        $this->info("Git fetched\n");
+
+        exec('git pull origin master');
+        $this->info("Git pulled\n");
+
         exec('composer dump-autoload');
         $this->info("Files autoload refreshed\n");
 
