@@ -6,16 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'phone', 'email', 'customer_status_id', 'subscription_id'];
+    protected $fillable = ['name', 'phone', 'email', 'remark_id', 'subscription_type_id', 'subscription_id', 'start_date'];
 
-    public function customerStatus()
+    public function remark()
     {
-        return $this->belongsTo('App\CustomerStatus');
-    }
-
-    public function customerStatuses()
-    {
-        return \App\CustomerStatus::all();
+        return $this->belongsTo('App\Remark');
     }
 
     public function subscription()

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCustomerStatusesTable extends Migration
+class CreateSubscriptionTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateCustomerStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_statuses', function (Blueprint $table) {
+        Schema::create('subscription_types', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('title');
+            $table->string('code', 3);
         });
     }
 
@@ -27,6 +28,6 @@ class CreateCustomerStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_statuses');
+        Schema::dropIfExists('subscription_types');
     }
 }
