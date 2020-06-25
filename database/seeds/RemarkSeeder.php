@@ -12,11 +12,26 @@ class RemarkSeeder extends Seeder
     public function run()
     {
         $remarks = [
-            'Не отмечен', 'Связаться', "Думает", "Жду оплату"
+            [
+                'title' => 'Не отмечен',
+                'color' => 'transparent'
+            ],
+            [
+                'title' => 'Связаться',
+                'color' => '#c365f3'
+            ],
+            [
+                'title' => "Думает",
+                'color' => '#8888fb'
+            ],
+            [
+                'title' => "Жду оплату",
+                'color' => '#f79b7c'
+            ]
         ];
 
         foreach ($remarks as $key => $remark) {
-            \App\Remark::create(['title' => $remark]);
+            \App\Remark::create($remark);
         }
     }
 }

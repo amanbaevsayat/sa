@@ -17,6 +17,7 @@ class CreateRemarksTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title');
+            $table->string('color')->default('transparent');
         });
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'phone', 'email', 'remark_id', 'subscription_type_id', 'subscription_id', 'start_date'];
+    protected $fillable = ['name', 'phone', 'email', 'remark_id', 'subscription_type_id', 'subscription_id', 'start_date', 'end_date'];
 
     public function remark()
     {

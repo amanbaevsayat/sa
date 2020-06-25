@@ -70,7 +70,15 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view("{$this->root}.edit", ['customer' => $customer, 'subscriptions' => \App\Subscription::all()->sortBy('OriginId')]);
+        $subscriptions =  \App\Subscription::all()->sortBy('OriginId');
+        $subscriptionTypes = \App\SubscriptionType::all();
+        $remarks = \App\Remark::all();
+        return view("{$this->root}.edit", [
+            'customer' => $customer, 
+            'subscriptions' => $subscriptions,
+            'subscriptionTypes' => $subscriptionTypes,
+            'remarks' => $remarks,
+            ]);
     }
 
     /**
@@ -83,7 +91,7 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $customer->update($request->all());
-        return redirect()->to("/{$this->root}");
+        return redirect()->to("/{$this->root}/{$customer->id}");
     }
 
     /**

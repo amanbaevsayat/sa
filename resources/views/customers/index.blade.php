@@ -32,7 +32,7 @@
                 <td>
                     {{ $customer->subscription->Status ?? 'Нет данных' }}
                 </td>
-                <td>{{ $customer->remark->title }}</td>
+                <td style="background-color: {{$customer->remark->color }};">{{ $customer->remark->title }}</td>
                 <td>{{ $customer->subscriptionType->title }}</td>
                 <td>
                     <a href="/customers/{{ $customer->id }}/edit" class="btn btn-sm btn-default mx-2" title="Редактировать">
