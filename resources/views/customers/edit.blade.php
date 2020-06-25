@@ -95,3 +95,15 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+    $(document).ready(function(){
+        $("#subscription_id").on("change", function(){
+            var emailInput = $("#email");
+            var data = $.trim($("#subscription_id").find("option:selected").text()).split(',');
+            emailInput.val(data[2]);
+        });
+    });
+</script>
+@endsection

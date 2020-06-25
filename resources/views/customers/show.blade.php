@@ -17,6 +17,8 @@
                 </form>
             </div>
             <div class="card-body">
+                <a href="/customers/{{$customer->id}}/edit" class="btn btn-warning btn-sm float-right">Изменить</a>
+
                 Дата старта: {{$customer->start_date}} <br>
                 Дата окончания: {{$customer->end_date}} <br>
                 Осталось дней: {{$customer->daysLeft()}} <br>
