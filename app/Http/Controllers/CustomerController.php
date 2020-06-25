@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     private $root;
+    private $perPage;
 
     public function __construct()
     {
         $this->root = 'customers';
+        $this->perPage = 45;
 
         $this->middleware('auth');
     }
@@ -21,9 +24,31 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("{$this->root}.index", ['customers' => Customer::paginate(45)]);
+        $customersQuery = Customer::query();
+
+        if ($request->has('subscription_type_id')) {
+            $customersQuery->whereIn('subscription_type_id', $request->subscription_type_id);
+        }
+        if ($request->has('remark_id')) {
+            $customersQuery->whereIn('remark_id',  $request->remark_id);
+        }
+        if ($request->has('subscriptionStatus')) {
+            $customersQuery->whereHas('subscription', function (Builder $query) use($request){
+                $query->where('Status', $request->subscriptionStatus);
+            });
+        }
+        $customers = $customersQuery->paginate($this->perPage);
+        $subscriptionStatuses = ['Active', 'Rejected', 'Cancelled'];
+        $subscriptionTypes = \App\SubscriptionType::all();
+        $remarks = \App\Remark::all();
+        return view("{$this->root}.index", [
+            'customers' => $customers,
+            'subscriptionTypes' => $subscriptionTypes,
+            'remarks' => $remarks,
+            'subscriptionStatuses' => $subscriptionStatuses,
+        ]);
     }
 
     /**
@@ -33,9 +58,14 @@ class CustomerController extends Controller
      */
     public function create()
     {
+        $subscriptions =  \App\Subscription::all()->sortBy('OriginId');
+        $subscriptionTypes = \App\SubscriptionType::all();
+        $remarks = \App\Remark::all();
+
         return view("{$this->root}.create", [
-            'customerStatuses' => \App\CustomerStatus::all(),
-            'subscriptions' => \App\Subscription::all(),
+            'subscriptions' => $subscriptions,
+            'subscriptionTypes' => $subscriptionTypes,
+            'remarks' => $remarks,
         ]);
     }
 
@@ -74,11 +104,11 @@ class CustomerController extends Controller
         $subscriptionTypes = \App\SubscriptionType::all();
         $remarks = \App\Remark::all();
         return view("{$this->root}.edit", [
-            'customer' => $customer, 
+            'customer' => $customer,
             'subscriptions' => $subscriptions,
             'subscriptionTypes' => $subscriptionTypes,
             'remarks' => $remarks,
-            ]);
+        ]);
     }
 
     /**
