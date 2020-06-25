@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        return view("{$this->root}.index", ['subscriptions' => Subscription::orderBy('StatusCode')->paginate(15)]);
+        return view("{$this->root}.index", ['subscriptions' => Subscription::orderBy('StatusCode')->paginate(45)]);
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomerStatus;
+use App\Remark;
 use Illuminate\Http\Request;
 
-class CustomerStatusController extends Controller
+class RemarkController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CustomerStatusController extends Controller
      */
     public function index()
     {
-        return 'CustomerStatusController';
+        //
     }
 
     /**
@@ -41,10 +41,10 @@ class CustomerStatusController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\CustomerStatus  $customerStatus
+     * @param  \App\Remark  $remark
      * @return \Illuminate\Http\Response
      */
-    public function show(CustomerStatus $customerStatus)
+    public function show(Remark $remark)
     {
         //
     }
@@ -52,10 +52,10 @@ class CustomerStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CustomerStatus  $customerStatus
+     * @param  \App\Remark  $remark
      * @return \Illuminate\Http\Response
      */
-    public function edit(CustomerStatus $customerStatus)
+    public function edit(Remark $remark)
     {
         //
     }
@@ -64,10 +64,10 @@ class CustomerStatusController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CustomerStatus  $customerStatus
+     * @param  \App\Remark  $remark
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CustomerStatus $customerStatus)
+    public function update(Request $request, Remark $remark)
     {
         //
     }
@@ -75,10 +75,10 @@ class CustomerStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CustomerStatus  $customerStatus
+     * @param  \App\Remark  $remark
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CustomerStatus $customerStatus)
+    public function destroy(Remark $remark)
     {
         //
     }

@@ -6,20 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'phone', 'email', 'customer_status_id', 'subscription_id'];
+    protected $fillable = ['name', 'phone', 'email', 'remark_id', 'subscription_type_id', 'subscription_id', 'start_date', 'end_date'];
 
-    public function customerStatus()
+    public function remark()
     {
-        return $this->belongsTo('App\CustomerStatus');
-    }
-
-    public function customerStatuses()
-    {
-        return \App\CustomerStatus::all();
+        return $this->belongsTo('App\Remark');
     }
 
     public function subscription()
     {
         return $this->belongsTo('App\Subscription');
+    }   
+
+    public function subscriptionType()
+    {
+        return $this->belongsTo('App\SubscriptionType');
+    }
+
+    public function daysLeft()
+    {
+        if (!$this->end_date) return '';
+        $now = time();
+        $end_date = strtotime($this->end_date);
+        $datediff = $end_date- $now;
+
+        return round($datediff / (60 * 60 * 24));
     }
 }

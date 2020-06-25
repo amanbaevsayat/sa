@@ -17,10 +17,16 @@
                 </form>
             </div>
             <div class="card-body">
+                <a href="/customers/{{$customer->id}}/edit" class="btn btn-warning btn-sm float-right">Изменить</a>
+
+                Дата старта: {{$customer->start_date}} <br>
+                Дата окончания: {{$customer->end_date}} <br>
+                Осталось дней: {{$customer->daysLeft()}} <br>
                 Телефон: {{$customer->phone}} <br>
                 Email: {{$customer->email}} <br>
-                Статус: {{$customer->customerStatus->title}} <br>
-                Подписка: {{$customer->subscription->OriginId ?? 'Отсутствует'}} <br>
+                Статус подписки: {{$customer->subscription->OriginId ?? 'Отсутствует'}} <br>
+                Ремарка: {{$customer->remark->title}} <br>
+                Тип: {{$customer->subscriptionType->title}} <br>
 
             </div>
             <div class="card-footer">
