@@ -40,6 +40,12 @@ class Init extends Command
      */
     public function handle()
     {
+        exec('composer dump-autoload');
+        $this->info("Files autoload refreshed\n");
+
+        \Artisan::call("optimize:clear");
+        $this->info("Clear caches\n");
+
         \Artisan::call("migrate:fresh --seed");
         $this->info("Migrations refreshed\n");
 
