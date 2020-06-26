@@ -22,7 +22,7 @@ class CreateCustomersTable extends Migration
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->integer('remark_id')->default(1);;
-            $table->integer('subscription_type_id')->default(2);
+            $table->integer('subscription_type_id')->default(1);
             $table->integer('subscription_id')->nullable();
         });
     }
