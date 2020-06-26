@@ -1319,7 +1319,7 @@ class CustomerSeeder extends Seeder
               'name' => $customer['name'],
               'phone' => $customer['phone'],
               'start_date' => date('Y-m-d', strtotime($customer['dateStart'])),
-              'end_date' => isset($customer['deadLine']) ? date('Y-m-d', strtotime($customer['dateStart']) + ($customer['deadLine'] * 24*60*60)) : null
+              'end_date' => date('Y-m-d', strtotime($customer['datePerson']))
           ]);
       }
     }

@@ -50,7 +50,7 @@ class Init extends Command
         $this->info("Files autoload refreshed\n");
 
         \Artisan::call("optimize:clear");
-        $this->info("Clear caches\n");
+        $this->info("Cache cleared\n");
 
         \Artisan::call("migrate:fresh --seed");
         $this->info("Migrations refreshed\n");
