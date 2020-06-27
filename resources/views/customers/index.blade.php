@@ -93,13 +93,24 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Дата старта</th>
+                <th scope="col">
+                    <a href="/customers?{{$sortService->sortable('start_date', request()->query())}}">
+                        Дата старта
+                    </a>
+                </th>
                 <th scope="col">Дата окончания</th>
-                <th scope="col">Осталось дней</th>
+                <th scope="col">
+                    <a href="/customers?{{$sortService->sortable('end_date', request()->query())}}">
+                        Осталось дней
+                    </a>
+                </th>
                 <th scope="col">Имя</th>
                 <th scope="col">Телефон</th>
                 <th scope="col">Статус подписки</th>
-                <th scope="col">Ремарка</th>
+                <th scope="col">
+                    <a href="/customers?{{$sortService->sortable('remark_id', request()->query())}}">
+                        Ремарка
+                    </a></th>
                 <th scope="col">Тип</th>
                 <th scope="col">
                     <i class="fa fa-cog"></i>

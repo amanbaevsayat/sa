@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Services\PaymentService;
+use App\Http\Services\SortService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
                 env('CLOUDPAYMENTS_USERNAME'),
                 env('CLOUDPAYMENTS_PASSWORD')
             );
+        });
+        $this->app->bind(SortService::class, function () {
+            return new SortService();
         });
     }
 

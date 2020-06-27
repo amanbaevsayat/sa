@@ -6,16 +6,19 @@ use App\Customer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use App\Http\Services\SortService;
 
 class CustomerController extends Controller
 {
     private $root;
     private $perPage;
+    public $sortService;
 
-    public function __construct()
+    public function __construct(SortService $sortService)
     {
         $this->root = 'customers';
         $this->perPage = 45;
+        $this->sortService = $sortService;
 
         $this->middleware('auth');
     }
@@ -28,7 +31,6 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $customersQuery = Customer::query();
-
         if ($request->has('subscription_type_id')) {
             $customersQuery->whereIn('subscription_type_id', $request->subscription_type_id);
         }
@@ -40,6 +42,9 @@ class CustomerController extends Controller
                 $query->where('Status', $request->subscriptionStatus);
             });
         }
+        if ($request->has('orderBy') && $request->has('orderTarget')) {
+            $customersQuery = boolval($request->orderTarget) ? $customersQuery->orderBy($request->orderBy) : $customersQuery->orderByDesc($request->orderBy);
+        }
         $customers = $customersQuery->paginate($this->perPage);
         $subscriptionStatuses = ['Active', 'Rejected', 'Cancelled'];
         $subscriptionTypes = \App\SubscriptionType::all();
@@ -49,6 +54,7 @@ class CustomerController extends Controller
             'subscriptionTypes' => $subscriptionTypes,
             'remarks' => $remarks,
             'subscriptionStatuses' => $subscriptionStatuses,
+            'sortService' => $this->sortService,
         ]);
     }
 
