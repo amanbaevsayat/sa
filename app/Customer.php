@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
@@ -16,7 +17,7 @@ class Customer extends Model
     public function subscription()
     {
         return $this->belongsTo('App\Subscription');
-    }   
+    }
 
     public function subscriptionType()
     {
@@ -28,8 +29,17 @@ class Customer extends Model
         if (!$this->end_date) return '';
         $now = time();
         $end_date = strtotime($this->end_date);
-        $datediff = $end_date- $now;
+        $datediff = $end_date - $now;
 
         return round($datediff / (60 * 60 * 24));
+    }
+
+    public function getStartDateAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d M Y');
+    }
+    public function getEndDateAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d M Y');
     }
 }

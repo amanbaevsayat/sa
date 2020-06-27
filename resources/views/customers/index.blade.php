@@ -111,9 +111,9 @@
                 <th scope="row">{{ ($customers->currentpage()-1) * $customers->perpage() + $key + 1  }}</th>
                 <td class="editable">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" name="start_date" aria-label="Дата старта" value="{{ $customer->start_date }}" disabled>
+                        <input type="text" class="form-control form-control-sm" name="start_date" aria-label="Дата старта" value="{{ $customer->start_date }}" readonly />
                         <div class="input-group-append">
-                            <span class="input-group-text">
+                            <span class="input-group-text calendar-clickable">
                                 <i class="fa fa-calendar"></i>
                             </span>
                         </div>
@@ -121,9 +121,9 @@
                 </td>
                 <td class="editable">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" name="end_date" aria-label="Дата старта" value="{{ $customer->end_date }}" disabled>
+                        <input type="text" class="form-control form-control-sm" name="end_date" aria-label="Дата старта" value="{{ $customer->end_date }}" readonly>
                         <div class="input-group-append">
-                            <span class="input-group-text">
+                            <span class="input-group-text calendar-clickable">
                                 <i class="fa fa-calendar"></i>
                             </span>
                         </div>
@@ -131,18 +131,18 @@
                 </td>
                 <td>{{ $customer->daysLeft() }}</td>
                 <td class="editable">
-                    <input type="text" name="name" class="form-control form-control-sm" value="{{ $customer->name }}" disabled />
+                    <input type="text" name="name" class="form-control form-control-sm" value="{{ $customer->name }}" readonly />
                 </td>
                 <td class="editable">
-                    <input type="text" name="phone" class="form-control form-control-sm" value="{{ $customer->phone }}" disabled />
+                    <input type="text" name="phone" class="form-control form-control-sm" value="{{ $customer->phone }}" readonly />
                 </td>
                 <td>
                     {{ $customer->subscription->Status ?? 'Нет данных' }}
                 </td>
                 <td class="editable" style="background-color: {{$customer->remark->color }};">
-                    <select name="remark_id" class="form-control form-control-sm" disabled>
+                    <select name="remark_id" class="form-control form-control-sm">
                         @foreach($remarks as $remark)
-                        <option value="{{ $remark->id }}" @if($customer->remark->id == $remark->id)
+                        <option value="{{ $remark->id }}" style="background-color: {{ $remark->color }};" @if($customer->remark->id == $remark->id)
                             selected
                             @endif
                             >
@@ -152,7 +152,7 @@
                     </select>
                 </td>
                 <td class="editable">
-                    <select name="subscription_type_id" class="form-control form-control-sm" disabled>
+                    <select name="subscription_type_id" class="form-control form-control-sm">
                         @foreach($subscriptionTypes as $subscriptionType)
                         <option value="{{ $subscriptionType->id }}" @if($customer->subscriptionType->id == $subscriptionType->id)
                             selected
@@ -163,17 +163,22 @@
                         @endforeach
                     </select>
                 </td>
-                <td>
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-cog"></i>
+                <td class="text-right">
+                    <button type="button" class="btn btn-danger btn-sm save-button" style="display: none;" title="Сохранить">
+                        <i class="fa fa-save"></i>
                     </button>
-                    <div class="dropdown-menu">
-                        <a href="/customers/{{ $customer->id }}/edit" class="dropdown-item" title="Редактировать">
-                            Редактировать
-                        </a>
-                        <a href="/customers/{{ $customer->id }}" class="dropdown-item" title="Подробнее">
-                            Подробнее
-                        </a>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="/customers/{{ $customer->id }}/edit" class="dropdown-item" title="Редактировать">
+                                Редактировать
+                            </a>
+                            <a href="/customers/{{ $customer->id }}" class="dropdown-item" title="Подробнее">
+                                Подробнее
+                            </a>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -214,10 +219,30 @@
             $("#filter-toggle > i.fa").toggleClass("fa-toggle-on");
         });
 
-        $(".editable").on("click", function() {
-            var id = $(this).closest("tr").attr("data-id");
-            var name = $(this).attr("data-name");
-            var value = $(this).text();
+        $(".editable").on("click", "input", function() {
+            $(this).prop("readonly", false);
+            $(this).closest("tr").addClass("touched");
+        });
+
+        $(".editable").on("change", "select", function() {
+            $(this).closest("tr").addClass("touched");
+        });
+
+        $("tr").on("click", function() {
+            if ($(this).hasClass("touched")) {
+                $(this).find(".save-button").show();
+            }
+        });
+
+        $(".save-button").on("click", function(){
+            if (confirm("Действительно сохранить изменения?")){
+                var tr = $(this).closest("tr");
+                tr.find("input").each(function(i, el){
+                    $(el).prop("readonly", true);
+                });
+                tr.removeClass("touched");
+                $(this).hide();
+            }
         });
     });
 </script>
