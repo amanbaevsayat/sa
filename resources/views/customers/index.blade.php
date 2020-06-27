@@ -139,10 +139,10 @@
                 <td>
                     {{ $customer->subscription->Status ?? 'Нет данных' }}
                 </td>
-                <td class="editable" style="background-color: {{$customer->remark->color }};">
-                    <select name="remark_id" class="form-control form-control-sm">
+                <td class="editable">
+                    <select name="remark_id" class="form-control form-control-sm" style="background-color: {{$customer->remark->color }};">
                         @foreach($remarks as $remark)
-                        <option value="{{ $remark->id }}" style="background-color: {{ $remark->color }};" @if($customer->remark->id == $remark->id)
+                        <option value="{{ $remark->id }}" data-background-color="{{ $remark->color }};" style="background-color: {{ $remark->color }};" @if($customer->remark->id == $remark->id)
                             selected
                             @endif
                             >
@@ -191,27 +191,26 @@
 
 @section('js')
 <script>
-    var updateProperty = function(id, name, value) {
-        var data = {
-            _token: $("meta[name='csrf-token']").attr('content'),
-        };
-        data[name] = value;
-        $.ajax({
-                url: `/customers/${id}`,
-                method: "POST",
-                data: data
-            })
-            .done(function(response) {
-                console.log(response);
-            })
-            .fail(function(error) {
-                console.log(error);
-            })
-            .always(function(response) {
-                console.log(response);
-            });
+    var update = function(id, model) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
+        var data = {
+            _method: "PUT",
+            ...model
+        };
+
+        return $.ajax({
+            url: `/customers/${id}`,
+            method: "POST",
+            data: data,
+            dataType: "html"
+        });
     }
+
     $(document).ready(function() {
         $("#filter .card-body").hide();
         $("#filter-toggle").on("click", function() {
@@ -226,6 +225,10 @@
 
         $(".editable").on("change", "select", function() {
             $(this).closest("tr").addClass("touched");
+            if ($(this).attr('name') == "remark_id")
+            {
+                $(this).attr("style", `background-color: ${$(this).find("option:selected").attr('data-background-color')}`);
+            }
         });
 
         $("tr").on("click", function() {
@@ -234,14 +237,30 @@
             }
         });
 
-        $(".save-button").on("click", function(){
-            if (confirm("Действительно сохранить изменения?")){
+        $(".save-button").on("click", function() {
+            if (confirm("Действительно сохранить изменения?")) {
                 var tr = $(this).closest("tr");
-                tr.find("input").each(function(i, el){
-                    $(el).prop("readonly", true);
-                });
-                tr.removeClass("touched");
-                $(this).hide();
+                var $this = $(this);
+
+                update(tr.attr("data-id"), {
+                        start_date: tr.find("input[name='start_date']").val(),
+                        end_date: tr.find("input[name='end_date']").val(),
+                        name: tr.find("input[name='name']").val(),
+                        phone: tr.find("input[name='phone']").val(),
+                        remark_id: tr.find("select[name='remark_id']").val(),
+                        subscription_type_id: tr.find("select[name='subscription_type_id']").val(),
+                    })
+                    .done(function(response) {
+                        tr.find("input").each(function(i, el) {
+                            $(el).prop("readonly", true);
+                        });
+                        tr.removeClass("touched");
+                        $this.hide();
+                    })
+                    .fail(function(error) {
+                        alert("Ошибка:\n" + error.statusText);
+                    });
+
             }
         });
     });

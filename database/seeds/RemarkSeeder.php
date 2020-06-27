@@ -14,7 +14,7 @@ class RemarkSeeder extends Seeder
         $remarks = [
             [
                 'title' => 'Не отмечен',
-                'color' => 'transparent'
+                'color' => '#FFFFFF'
             ],
             [
                 'title' => 'Связаться',

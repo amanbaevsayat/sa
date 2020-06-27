@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,7 @@ class CustomerController extends Controller
             $customersQuery->whereIn('remark_id',  $request->remark_id);
         }
         if ($request->has('subscriptionStatus')) {
-            $customersQuery->whereHas('subscription', function (Builder $query) use($request){
+            $customersQuery->whereHas('subscription', function (Builder $query) use ($request) {
                 $query->where('Status', $request->subscriptionStatus);
             });
         }
@@ -120,7 +121,10 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $customer->update($request->all());
+        $data = $request->all();
+        $data['start_date'] =  Carbon::createFromFormat('d M Y',  $data['start_date'])->format('Y-m-d');
+        $data['end_date'] =  Carbon::createFromFormat('d M Y',  $data['end_date'])->format('Y-m-d');
+        $customer->update($data);
         return redirect()->to("/{$this->root}/{$customer->id}");
     }
 
