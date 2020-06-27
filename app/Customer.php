@@ -36,10 +36,10 @@ class Customer extends Model
 
     public function getStartDateAttribute($date)
     {
-        return Carbon::createFromFormat('Y-m-d', $date)->format('d M Y');
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d F Y');
     }
     public function getEndDateAttribute($date)
     {
-        return Carbon::createFromFormat('Y-m-d', $date)->format('d M Y');
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d F Y');
     }
 }

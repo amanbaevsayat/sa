@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <style>
     th,
     td {
@@ -110,7 +111,7 @@
             <tr data-id="{{ $customer->id }}">
                 <th scope="row">{{ ($customers->currentpage()-1) * $customers->perpage() + $key + 1  }}</th>
                 <td class="editable">
-                    <div class="input-group">
+                    <div class="input-group date">
                         <input type="text" class="form-control form-control-sm" name="start_date" aria-label="Дата старта" value="{{ $customer->start_date }}" readonly />
                         <div class="input-group-append">
                             <span class="input-group-text calendar-clickable">
@@ -120,7 +121,7 @@
                     </div>
                 </td>
                 <td class="editable">
-                    <div class="input-group">
+                    <div class="input-group date">
                         <input type="text" class="form-control form-control-sm" name="end_date" aria-label="Дата старта" value="{{ $customer->end_date }}" readonly>
                         <div class="input-group-append">
                             <span class="input-group-text calendar-clickable">
@@ -190,6 +191,8 @@
 @endsection
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js"></script> -->
 <script>
     var update = function(id, model) {
         $.ajaxSetup({
@@ -218,22 +221,22 @@
             $("#filter-toggle > i.fa").toggleClass("fa-toggle-on");
         });
 
+        $(".date").datepicker({
+            format: 'd MM yyyy',
+            autoclose: true
+        });
+
         $(".editable").on("click", "input", function() {
             $(this).prop("readonly", false);
-            $(this).closest("tr").addClass("touched");
         });
-
-        $(".editable").on("change", "select", function() {
-            $(this).closest("tr").addClass("touched");
-            if ($(this).attr('name') == "remark_id")
-            {
+        $(".editable").on("change", "input, select", function() {
+            var tr = $(this).closest("tr");
+            tr.addClass("touched");
+            if ($(this).attr('name') == "remark_id") {
                 $(this).attr("style", `background-color: ${$(this).find("option:selected").attr('data-background-color')}`);
             }
-        });
-
-        $("tr").on("click", function() {
-            if ($(this).hasClass("touched")) {
-                $(this).find(".save-button").show();
+            if (tr.hasClass("touched")) {
+                tr.find(".save-button").show();
             }
         });
 
