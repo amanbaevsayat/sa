@@ -27,6 +27,10 @@ class RemarkSeeder extends Seeder
             [
                 'title' => "Жду оплату",
                 'color' => '#f79b7c'
+            ],
+            [
+                'title' => "Отказался",
+                'color' => '#f9f578'
             ]
         ];
 

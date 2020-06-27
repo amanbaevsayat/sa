@@ -6,6 +6,11 @@
     td {
         text-align: center;
     }
+
+    td.editable input[type='text'],
+    td.editable select {
+        width: 100px;
+    }
 </style>
 @endsection
 
@@ -83,7 +88,7 @@
     </div>
 </div>
 <div class="table-responsive bg-white">
-    <table class="table table-striped">
+    <table class="table table-striped table-sm">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -95,30 +100,81 @@
                 <th scope="col">Статус подписки</th>
                 <th scope="col">Ремарка</th>
                 <th scope="col">Тип</th>
-                <th scope="col">Настройки</th>
+                <th scope="col">
+                    <i class="fa fa-cog"></i>
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach($customers as $key => $customer)
-            <tr>
+            <tr data-id="{{ $customer->id }}">
                 <th scope="row">{{ ($customers->currentpage()-1) * $customers->perpage() + $key + 1  }}</th>
-                <td>{{ $customer->start_date }}</td>
-                <td>{{ $customer->end_date }}</td>
+                <td class="editable">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" name="start_date" aria-label="Дата старта" value="{{ $customer->start_date }}" disabled>
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td class="editable">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" name="end_date" aria-label="Дата старта" value="{{ $customer->end_date }}" disabled>
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </td>
                 <td>{{ $customer->daysLeft() }}</td>
-                <td>{{ $customer->name }}</td>
-                <td>{{ $customer->phone }}</td>
+                <td class="editable">
+                    <input type="text" name="name" class="form-control form-control-sm" value="{{ $customer->name }}" disabled />
+                </td>
+                <td class="editable">
+                    <input type="text" name="phone" class="form-control form-control-sm" value="{{ $customer->phone }}" disabled />
+                </td>
                 <td>
                     {{ $customer->subscription->Status ?? 'Нет данных' }}
                 </td>
-                <td style="background-color: {{$customer->remark->color }};">{{ $customer->remark->title }}</td>
-                <td>{{ $customer->subscriptionType->title }}</td>
+                <td class="editable" style="background-color: {{$customer->remark->color }};">
+                    <select name="remark_id" class="form-control form-control-sm" disabled>
+                        @foreach($remarks as $remark)
+                        <option value="{{ $remark->id }}" @if($customer->remark->id == $remark->id)
+                            selected
+                            @endif
+                            >
+                            {{ $remark->title }}
+                        </option>
+                        @endforeach
+                    </select>
+                </td>
+                <td class="editable">
+                    <select name="subscription_type_id" class="form-control form-control-sm" disabled>
+                        @foreach($subscriptionTypes as $subscriptionType)
+                        <option value="{{ $subscriptionType->id }}" @if($customer->subscriptionType->id == $subscriptionType->id)
+                            selected
+                            @endif
+                            >
+                            {{ $subscriptionType->title }}
+                        </option>
+                        @endforeach
+                    </select>
+                </td>
                 <td>
-                    <a href="/customers/{{ $customer->id }}/edit" class="btn btn-sm btn-default mx-2" title="Редактировать">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                    <a href="/customers/{{ $customer->id }}" class="btn btn-sm btn-default mx-2" title="Подробнее">
-                        <i class="fa fa-list"></i>
-                    </a>
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="/customers/{{ $customer->id }}/edit" class="dropdown-item" title="Редактировать">
+                            Редактировать
+                        </a>
+                        <a href="/customers/{{ $customer->id }}" class="dropdown-item" title="Подробнее">
+                            Подробнее
+                        </a>
+                    </div>
                 </td>
             </tr>
             @endforeach
@@ -130,10 +186,39 @@
 
 @section('js')
 <script>
-    $("#filter .card-body").hide();
-    $("#filter-toggle").on("click", function() {
-        $("#filter .card-body").toggle("slide");
-        $("#filter-toggle > i.fa").toggleClass("fa-toggle-on");
-    })
+    var updateProperty = function(id, name, value) {
+        var data = {
+            _token: $("meta[name='csrf-token']").attr('content'),
+        };
+        data[name] = value;
+        $.ajax({
+                url: `/customers/${id}`,
+                method: "POST",
+                data: data
+            })
+            .done(function(response) {
+                console.log(response);
+            })
+            .fail(function(error) {
+                console.log(error);
+            })
+            .always(function(response) {
+                console.log(response);
+            });
+
+    }
+    $(document).ready(function() {
+        $("#filter .card-body").hide();
+        $("#filter-toggle").on("click", function() {
+            $("#filter .card-body").toggle("slide");
+            $("#filter-toggle > i.fa").toggleClass("fa-toggle-on");
+        });
+
+        $(".editable").on("click", function() {
+            var id = $(this).closest("tr").attr("data-id");
+            var name = $(this).attr("data-name");
+            var value = $(this).text();
+        });
+    });
 </script>
 @endsection
