@@ -18,19 +18,23 @@ class RemarkSeeder extends Seeder
             ],
             [
                 'title' => 'Связаться',
-                'color' => '#c365f3'
+                'color' => '#e0a4ff'
             ],
             [
-                'title' => "Думает",
-                'color' => '#8888fb'
+                'title' => 'Думает',
+                'color' => '#b3b3f7'
+            ],
+            [
+                'title' => "Пробует",
+                'color' => '#b3f7de'
             ],
             [
                 'title' => "Жду оплату",
-                'color' => '#f79b7c'
+                'color' => '#ffc8b5'
             ],
             [
                 'title' => "Отказался",
-                'color' => '#f9f578'
+                'color' => '#fffcae'
             ]
         ];
 

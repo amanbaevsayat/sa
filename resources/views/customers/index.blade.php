@@ -93,6 +93,15 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">
+                    <a href="/customers?{{$sortService->sortable('end_date', request()->query())}}">
+                        Ост. дней
+                    </a>
+                </th>
+                <th scope="col">Подписка</th>
+                <th scope="col">Тип</th>
                 <th scope="col">
                     <a href="/customers?{{$sortService->sortable('start_date', request()->query())}}">
                         Дата старта
@@ -100,18 +109,10 @@
                 </th>
                 <th scope="col">Дата окончания</th>
                 <th scope="col">
-                    <a href="/customers?{{$sortService->sortable('end_date', request()->query())}}">
-                        Осталось дней
+                    <a href="/customers?{{$sortService->sortable('remark_id', request()->query())}}">
+                        Метка
                     </a>
                 </th>
-                <th scope="col">Имя</th>
-                <th scope="col">Телефон</th>
-                <th scope="col">Статус подписки</th>
-                <th scope="col">
-                    <a href="/customers?{{$sortService->sortable('remark_id', request()->query())}}">
-                        Ремарка
-                    </a></th>
-                <th scope="col">Тип</th>
                 <th scope="col">
                     <i class="fa fa-cog"></i>
                 </th>
@@ -121,6 +122,28 @@
             @foreach($customers as $key => $customer)
             <tr data-id="{{ $customer->id }}">
                 <th scope="row">{{ ($customers->currentpage()-1) * $customers->perpage() + $key + 1  }}</th>
+                <td class="editable">
+                    <input type="text" name="name" class="form-control form-control-sm" value="{{ $customer->name }}" readonly />
+                </td>
+                <td class="editable">
+                    <input type="text" name="phone" class="form-control form-control-sm" value="{{ $customer->phone }}" readonly />
+                </td>
+                <td>{{ $customer->daysLeft() }}</td>
+                <td>
+                    {{ $customer->subscription->Status ?? 'Нет данных' }}
+                </td>
+                <td class="editable">
+                    <select name="subscription_type_id" class="form-control form-control-sm">
+                        @foreach($subscriptionTypes as $subscriptionType)
+                        <option value="{{ $subscriptionType->id }}" @if($customer->subscriptionType->id == $subscriptionType->id)
+                            selected
+                            @endif
+                            >
+                            {{ $subscriptionType->title }}
+                        </option>
+                        @endforeach
+                    </select>
+                </td>
                 <td class="editable">
                     <div class="input-group date">
                         <input type="text" class="form-control form-control-sm" name="start_date" aria-label="Дата старта" value="{{ $customer->start_date }}" readonly />
@@ -141,16 +164,6 @@
                         </div>
                     </div>
                 </td>
-                <td>{{ $customer->daysLeft() }}</td>
-                <td class="editable">
-                    <input type="text" name="name" class="form-control form-control-sm" value="{{ $customer->name }}" readonly />
-                </td>
-                <td class="editable">
-                    <input type="text" name="phone" class="form-control form-control-sm" value="{{ $customer->phone }}" readonly />
-                </td>
-                <td>
-                    {{ $customer->subscription->Status ?? 'Нет данных' }}
-                </td>
                 <td class="editable">
                     <select name="remark_id" class="form-control form-control-sm" style="background-color: {{$customer->remark->color }};">
                         @foreach($remarks as $remark)
@@ -159,18 +172,6 @@
                             @endif
                             >
                             {{ $remark->title }}
-                        </option>
-                        @endforeach
-                    </select>
-                </td>
-                <td class="editable">
-                    <select name="subscription_type_id" class="form-control form-control-sm">
-                        @foreach($subscriptionTypes as $subscriptionType)
-                        <option value="{{ $subscriptionType->id }}" @if($customer->subscriptionType->id == $subscriptionType->id)
-                            selected
-                            @endif
-                            >
-                            {{ $subscriptionType->title }}
                         </option>
                         @endforeach
                     </select>
