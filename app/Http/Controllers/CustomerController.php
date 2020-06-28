@@ -31,6 +31,12 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $customersQuery = Customer::query();
+
+        if ($request->has('needle') && !empty($request->needle)){
+            $customersQuery->where('name', $request->needle);
+            $customersQuery->orWhere('phone', str_replace(" ", "", trim($request->needle)));
+        }
+
         if ($request->has('subscription_type_id')) {
             $customersQuery->whereIn('subscription_type_id', $request->subscription_type_id);
         }

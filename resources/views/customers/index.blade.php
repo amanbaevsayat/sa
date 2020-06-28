@@ -17,20 +17,19 @@
 
 @section('content')
 
-<div class="row">
-    <div class="col-11">
-        <div class="card mb-2" id="filter">
-            <div class="card-header py-1">
-                Фильтр
-                <small class="float-right">
-                    <button id="filter-toggle" class="btn btn-default btn-sm" title="Скрыть/показать">
-                        <i class="fa fa-toggle-off"></i>
-                    </button>
-                </small>
-            </div>
-            <div class="card-body">
-                <form action="/customers" method="GET">
-                    @csrf
+<form action="/customers" method="GET">
+    <div class="row">
+        <div class="col-11">
+            <div class="card mb-2" id="filter">
+                <div class="card-header py-1">
+                    Фильтр
+                    <small class="float-right">
+                        <a href="#" id="filter-toggle" class="btn btn-default btn-sm" title="Скрыть/показать">
+                            <i class="fa fa-toggle-off"></i>
+                        </a>
+                    </small>
+                </div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
@@ -78,16 +77,28 @@
                             Зажмите CTRL, чтобы выбрать несколько параметров
                         </small>
                     </div>
-                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+            <a href="/customers/create" class="btn btn-info btn-block text-white mb-2" title="Добавить">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <input type="text" class="form-control" name="needle" placeholder="Найти по имени и номеру" aria-label="search" aria-describedby="search-icon" value="{{ request('needle') }}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" id="search-icon">
+                    <i class="fa fa-search"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div class="col-1">
-        <a href="/customers/create" class="btn btn-info btn-block text-white mb-2" title="Добавить">
-            <i class="fa fa-plus"></i>
-        </a>
-    </div>
-</div>
+</form>
+
 <div class="table-responsive bg-white">
     <table class="table table-striped table-sm">
         <thead>
@@ -228,7 +239,8 @@
 
     $(document).ready(function() {
         $("#filter .card-body").hide();
-        $("#filter-toggle").on("click", function() {
+        $("#filter-toggle").on("click", function(e) {
+            e.preventDefault();
             $("#filter .card-body").toggle("slide");
             $("#filter-toggle > i.fa").toggleClass("fa-toggle-on");
         });

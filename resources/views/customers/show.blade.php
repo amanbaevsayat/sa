@@ -24,10 +24,9 @@
                 Осталось дней: {{$customer->daysLeft()}} <br>
                 Телефон: {{$customer->phone}} <br>
                 Email: {{$customer->email}} <br>
-                Статус подписки: {{$customer->subscription->OriginId ?? 'Отсутствует'}} <br>
-                Ремарка: {{$customer->remark->title}} <br>
+                Подписка: {{$customer->subscription->OriginId ?? 'Отсутствует'}} <br>
+                Метка: {{$customer->remark->title}} <br>
                 Тип: {{$customer->subscriptionType->title}} <br>
-
             </div>
             <div class="card-footer">
                 <a href="/customers">К списку</a>
