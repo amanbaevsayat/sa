@@ -52,6 +52,7 @@ class Init extends Command
         \Artisan::call("optimize:clear");
         $this->info("Cache cleared\n");
 
+        /*
         \Artisan::call("migrate:fresh --seed");
         $this->info("Migrations refreshed\n");
 
@@ -71,5 +72,6 @@ class Init extends Command
             $subscription->update($model);
         }
         $this->info("Subscriptions updated\n");
+        */
     }
 }
