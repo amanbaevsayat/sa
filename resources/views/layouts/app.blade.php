@@ -76,7 +76,7 @@
 
         <footer>
             <small>
-                Версия: {{ env('APP_VERSION') }}
+                Версия: {{ config('app.version') }}
             </small>
         </footer>
     </div>
