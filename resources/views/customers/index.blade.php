@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="remark_id">Ремарка</label>
+                                <label for="remark_id">Метка</label>
                                 <select class="form-control" id="remark_id" name="remark_id[]" multiple>
                                     @foreach($remarks as $remark)
                                     <option value="{{$remark->id}}" @if (!is_null(request("remark_id")) && request("remark_id") && in_array($remark->id, request("remark_id")))

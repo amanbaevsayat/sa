@@ -32,9 +32,11 @@ class CustomerController extends Controller
     {
         $customersQuery = Customer::query();
 
-        if ($request->has('needle') && !empty($request->needle)){
-            $customersQuery->where('name', $request->needle);
-            $customersQuery->orWhere('phone', str_replace(" ", "", trim($request->needle)));
+        if ($request->has('needle') && !empty($request->needle)) {
+            $customersQuery->whereRaw("(
+                name = '" . $request->needle . "' OR
+                phone = '" . str_replace(" ", "", trim($request->needle)) . "'
+            )");
         }
 
         if ($request->has('subscription_type_id')) {
