@@ -73,6 +73,12 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <footer>
+            <small>
+                Версия: {{ env('APP_VERSION') }}
+            </small>
+        </footer>
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
