@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+@endsection
 @section('content')
 <div class="card">
     <div class="card-body">
@@ -9,13 +11,27 @@
             <div class="form-group row">
                 <label for="start_date" class="col-sm-2 col-form-label">Дата старта</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="start_date" value="{{$customer->start_date}}" name="start_date">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" name="start_date" aria-label="Дата старта" value="{{ $customer->start_date }}" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text calendar-clickable">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="end_date" class="col-sm-2 col-form-label">Дата окончания</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="end_date" value="{{$customer->end_date}}" name="end_date">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" name="end_date" aria-label="Дата старта" value="{{ $customer->end_date }}" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text calendar-clickable">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
@@ -97,12 +113,18 @@
 @endsection
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $("#subscription_id").on("change", function(){
+    $(document).ready(function() {
+        $("#subscription_id").on("change", function() {
             var emailInput = $("#email");
             var data = $.trim($("#subscription_id").find("option:selected").text()).split(',');
             emailInput.val(data[2]);
+        });
+
+        $(".date").datepicker({
+            format: 'd MM yyyy',
+            autoclose: true
         });
     });
 </script>

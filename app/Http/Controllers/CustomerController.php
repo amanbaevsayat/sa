@@ -136,6 +136,7 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $data = $request->all();
+        $data['phone'] = preg_replace('/[^0-9]/', '', $data['phone']);
         $data['start_date'] =  Carbon::createFromFormat('d M Y',  $data['start_date'])->format('Y-m-d');
         $data['end_date'] =  Carbon::createFromFormat('d M Y',  $data['end_date'])->format('Y-m-d');
         $customer->update($data);

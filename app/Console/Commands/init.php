@@ -40,6 +40,7 @@ class Init extends Command
      */
     public function handle()
     {
+        /*
         exec('git fetch origin master');
         $this->info("Git fetched\n");
 
@@ -52,7 +53,6 @@ class Init extends Command
         \Artisan::call("optimize:clear");
         $this->info("Cache cleared\n");
 
-        /*
         \Artisan::call("migrate:fresh --seed");
         $this->info("Migrations refreshed\n");
 
