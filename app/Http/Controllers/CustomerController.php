@@ -33,9 +33,12 @@ class CustomerController extends Controller
         $customersQuery = Customer::query();
 
         if ($request->has('needle') && !empty($request->needle)) {
+            $phone = preg_replace('/[^0-9]/', '', $request->needle);
+            //dd($phone);
             $customersQuery->whereRaw("(
                 name = '" . $request->needle . "' OR
-                phone = '" . str_replace(" ", "", trim($request->needle)) . "'
+                phone like '%{$phone}%' OR
+                '{$phone}' LIKE CONCAT('%', phone, '%')
             )");
         }
 
