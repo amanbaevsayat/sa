@@ -33,13 +33,14 @@ class CustomerController extends Controller
         $customersQuery = Customer::query();
 
         if ($request->has('needle') && !empty($request->needle)) {
+            $name =  $request->needle;
             $phone = preg_replace('/[^0-9]/', '', $request->needle);
-            //dd($phone);
-            $customersQuery->whereRaw("(
-                name = '" . $request->needle . "' OR
-                phone like '%{$phone}%' OR
-                '{$phone}' LIKE CONCAT('%', phone, '%')
-            )");
+            $query = "(name like '%{$name}%'";
+            if (!empty($phone)){
+                $query .= " OR phone like '%{$phone}%' OR '{$phone}' LIKE CONCAT('%', phone, '%')";
+            }
+            $query .= ")";
+            $customersQuery->whereRaw($query);
         }
 
         if ($request->has('subscription_type_id')) {
@@ -95,7 +96,11 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = Customer::create($request->all());
+        $data = $request->all();
+        $data['phone'] = preg_replace('/[^0-9]/', '', $data['phone']);
+        $data['start_date'] =  Carbon::createFromFormat('d M Y',  $data['start_date'])->format('Y-m-d');
+        $data['end_date'] =  Carbon::createFromFormat('d M Y',  $data['end_date'])->format('Y-m-d');
+        $customer = Customer::create($data);
         return view("{$this->root}.show", ['customer' => $customer]);
     }
 
