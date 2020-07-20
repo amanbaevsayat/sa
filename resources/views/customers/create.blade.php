@@ -114,7 +114,8 @@
         $(".date").datepicker({
             format: 'd MM yyyy',
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            weekStart: 1
         });
     });
 </script>

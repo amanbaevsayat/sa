@@ -246,7 +246,8 @@
 
         $(".date").datepicker({
             format: 'd MM yyyy',
-            autoclose: true
+            autoclose: true,
+            weekStart: 1
         });
 
         $(".editable").on("click", "input", function() {

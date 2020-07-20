@@ -98,8 +98,8 @@ class CustomerController extends Controller
     {
         $data = $request->all();
         $data['phone'] = preg_replace('/[^0-9]/', '', $data['phone']);
-        $data['start_date'] =  Carbon::createFromFormat('d M Y',  $data['start_date'])->format('Y-m-d');
-        $data['end_date'] =  Carbon::createFromFormat('d M Y',  $data['end_date'])->format('Y-m-d');
+        $data['start_date'] =  Carbon::parse($data['start_date'])->locale('ru')->format('Y-m-d');
+        $data['end_date'] =  Carbon::parse($data['end_date'])->locale('ru')->format('Y-m-d');
         $customer = Customer::create($data);
         return view("{$this->root}.show", ['customer' => $customer]);
     }
@@ -145,8 +145,8 @@ class CustomerController extends Controller
     {
         $data = $request->all();
         $data['phone'] = preg_replace('/[^0-9]/', '', $data['phone']);
-        $data['start_date'] =  Carbon::createFromFormat('d M Y',  $data['start_date'])->format('Y-m-d');
-        $data['end_date'] =  Carbon::createFromFormat('d M Y',  $data['end_date'])->format('Y-m-d');
+        $data['start_date'] =  Carbon::parse($data['start_date'])->format('Y-m-d');
+        $data['end_date'] =  Carbon::parse($data['end_date'])->format('Y-m-d');
         $customer->update($data);
         return redirect()->to("/{$this->root}/{$customer->id}");
     }
