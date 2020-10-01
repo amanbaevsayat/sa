@@ -5,7 +5,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form action="/customers/{{$customer->id}}" method="POST">
+        <form id="edit-customer-form" action="/customers/{{$customer->id}}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group row">
@@ -100,11 +100,26 @@
                     </select>
                 </div>
             </div>
-
-            <div class="form-group text-right">
-                <input type="submit" value="Сохранить" class="btn btn-success" />
-            </div>
         </form>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger" onclick="if (confirm('Вы действительно хотите удалить?')) {document.getElementById('delete-customer-form').submit();}">
+                        Удалить
+                    </button>
+                </div>
+                <form id="delete-customer-form" action="{{ route('customers.destroy', ['customer'=>$customer]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </div>
+            <div class="col">
+                <div class="form-group text-right">
+                    <input type="submit" value="Сохранить" class="btn btn-success" onclick="document.getElementById('edit-customer-form').submit();"/>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="card-footer">
         <a href="/customers">К списку</a>

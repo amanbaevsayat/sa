@@ -115,7 +115,7 @@
             format: 'd MM yyyy',
             autoclose: true,
             todayHighlight: true,
-            weekStart: 1
+            weekStart: 1,
         });
     });
 </script>
